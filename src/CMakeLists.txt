@@ -5,6 +5,11 @@ project(solanaceae)
 add_library(solanaceae_message_serializer
 	./solanaceae/message3/message_serializer.hpp
 	./solanaceae/message3/message_serializer.cpp
+
+	# TODO: extract?
+	./solanaceae/message3/nj/message_components.hpp
+	./solanaceae/message3/nj/message_components_serializer.hpp
+	./solanaceae/message3/nj/message_components_serializer.cpp
 )
 
 target_include_directories(solanaceae_message_serializer PUBLIC .)
