@@ -14,7 +14,12 @@ namespace Message::Components {
 	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ContactFrom, c)
 	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ContactTo, c)
 	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Read, ts)
-	// TODO: SyncedBy
+
+
+	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ReceivedBy, ts)
+	// ReadBy
+	// SyncedBy
+
 	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MessageText, text)
 
 	// TODO: remove
@@ -26,4 +31,28 @@ namespace Message::Components {
 
 } // Message::Components
 
+
+namespace entt {
+	// is this really not needed?
+	//template<typename Key, typename Value>
+	//inline void to_json(nlohmann::json& j, const dense_map<Key, Value>& m) {
+	//}
+
+	// TODO: using the internal stuff might be bad for abi
+	template<typename Key, typename Value>
+	inline void from_json(const nlohmann::json& j, dense_map<Key, Value>& m) {
+		if (!j.is_array()) {
+			throw (nlohmann::detail::type_error::create(302, nlohmann::detail::concat("type must be array, but is ", j.type_name()), &j));
+		}
+
+		m.clear();
+
+		for (const auto& p : j) {
+			if (!p.is_array()) {
+				throw (nlohmann::detail::type_error::create(302, nlohmann::detail::concat("type must be array, but is ", p.type_name()), &j));
+			}
+			m.emplace(p.at(0).template get<Key>(), p.at(1).template get<Value>());
+		}
+	}
+} // entt
 

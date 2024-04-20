@@ -13,10 +13,15 @@ void registerMessageComponents(MessageSerializerNJ& msnj) {
 	msnj.registerDeserializer<Message::Components::ContactFrom>();
 	msnj.registerSerializer<Message::Components::ContactTo>();
 	msnj.registerDeserializer<Message::Components::ContactTo>();
+
 	msnj.registerSerializer<Message::Components::TagUnread>();
 	msnj.registerDeserializer<Message::Components::TagUnread>();
 	msnj.registerSerializer<Message::Components::Read>();
 	msnj.registerDeserializer<Message::Components::Read>();
+
+	msnj.registerSerializer<Message::Components::ReceivedBy>();
+	msnj.registerDeserializer<Message::Components::ReceivedBy>();
+
 	msnj.registerSerializer<Message::Components::MessageText>();
 	msnj.registerDeserializer<Message::Components::MessageText>();
 	msnj.registerSerializer<Message::Components::TagMessageIsAction>();
