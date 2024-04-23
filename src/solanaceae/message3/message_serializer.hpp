@@ -70,12 +70,19 @@ struct MessageSerializerNJ {
 	}
 
 	// TODO: deregister
+
+
+
+	// helper
+	nlohmann::json serlContactByID(Contact3 c) const;
+	Contact3 deserlContactByID(const nlohmann::json& j);
 };
 
 // fwd
 namespace Message::Components {
 struct ContactFrom;
 struct ContactTo;
+struct ReceivedBy;
 }
 
 // make specializations known
@@ -87,3 +94,7 @@ template<>
 bool MessageSerializerNJ::component_get_json<Message::Components::ContactTo>(MessageSerializerNJ& msc, const Handle h, nlohmann::json& j);
 template<>
 bool MessageSerializerNJ::component_emplace_or_replace_json<Message::Components::ContactTo>(MessageSerializerNJ& msc, Handle h, const nlohmann::json& j);
+template<>
+bool MessageSerializerNJ::component_get_json<Message::Components::ReceivedBy>(MessageSerializerNJ& msc, const Handle h, nlohmann::json& j);
+template<>
+bool MessageSerializerNJ::component_emplace_or_replace_json<Message::Components::ReceivedBy>(MessageSerializerNJ& msc, Handle h, const nlohmann::json& j);

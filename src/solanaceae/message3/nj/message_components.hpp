@@ -11,12 +11,12 @@ namespace Message::Components {
 	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Timestamp, ts)
 	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(TimestampProcessed, ts)
 	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(TimestampWritten, ts)
-	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ContactFrom, c)
-	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ContactTo, c)
+	//NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ContactFrom, c) // ms special
+	//NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ContactTo, c) // ms special
 	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Read, ts)
 
 
-	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ReceivedBy, ts)
+	//NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ReceivedBy, ts) // ms special
 	// ReadBy
 	// SyncedBy
 
