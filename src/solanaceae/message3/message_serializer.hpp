@@ -12,7 +12,7 @@ struct MessageSerializerNJ {
 	using Registry = Message3Registry;
 	using Handle = Message3Handle;
 
-	static constexpr const char* version {"1"};
+	static constexpr const char* version {"2"};
 
 	Contact3Registry& cr;
 	ObjectStore2& os;
