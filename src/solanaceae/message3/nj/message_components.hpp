@@ -21,13 +21,7 @@ namespace Message::Components {
 	// SyncedBy
 
 	NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MessageText, text)
-
-	// TODO: remove
-	//namespace Transfer {
-		//NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FileInfo::FileDirEntry, file_name, file_size)
-		//NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FileInfo, file_list, total_size)
-		//NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(FileInfoLocal, file_list)
-	//} // Transfer
+	// file is special
 
 } // Message::Components
 

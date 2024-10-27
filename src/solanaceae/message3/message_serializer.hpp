@@ -4,6 +4,7 @@
 #include <entt/container/dense_map.hpp>
 
 #include <solanaceae/message3/registry_message_model.hpp>
+#include <solanaceae/object_store/object_store.hpp>
 
 #include <nlohmann/json_fwd.hpp>
 
@@ -14,6 +15,7 @@ struct MessageSerializerNJ {
 	static constexpr const char* version {"1"};
 
 	Contact3Registry& cr;
+	ObjectStore2& os;
 
 	// nlohmann
 	// json/msgpack
@@ -76,6 +78,8 @@ struct MessageSerializerNJ {
 	// helper
 	nlohmann::json serlContactByID(Contact3 c) const;
 	Contact3 deserlContactByID(const nlohmann::json& j);
+	nlohmann::json serlFileObjByID(ObjectHandle o) const;
+	ObjectHandle deserlFileObjByID(const nlohmann::json& j);
 };
 
 // fwd
@@ -83,6 +87,7 @@ namespace Message::Components {
 struct ContactFrom;
 struct ContactTo;
 struct ReceivedBy;
+struct MessageFileObject;
 }
 
 // make specializations known
@@ -98,3 +103,7 @@ template<>
 bool MessageSerializerNJ::component_get_json<Message::Components::ReceivedBy>(MessageSerializerNJ& msc, const Handle h, nlohmann::json& j);
 template<>
 bool MessageSerializerNJ::component_emplace_or_replace_json<Message::Components::ReceivedBy>(MessageSerializerNJ& msc, Handle h, const nlohmann::json& j);
+template<>
+bool MessageSerializerNJ::component_get_json<Message::Components::MessageFileObject>(MessageSerializerNJ& msc, const Handle h, nlohmann::json& j);
+template<>
+bool MessageSerializerNJ::component_emplace_or_replace_json<Message::Components::MessageFileObject>(MessageSerializerNJ& msc, Handle h, const nlohmann::json& j);

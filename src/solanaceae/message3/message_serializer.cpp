@@ -2,6 +2,7 @@
 
 #include <solanaceae/message3/components.hpp>
 #include <solanaceae/contact/components.hpp>
+#include <solanaceae/object_store/meta_components.hpp>
 
 #include <nlohmann/json.hpp>
 
@@ -50,6 +51,37 @@ Contact3 MessageSerializerNJ::deserlContactByID(const nlohmann::json& j) {
 	}
 
 	return other_c;
+}
+
+nlohmann::json MessageSerializerNJ::serlFileObjByID(ObjectHandle o) const {
+	if (!o) {
+		std::cerr << "MSC warning: encountered invalid file object\n";
+		return nullptr;
+	}
+
+	auto* id_comp = o.try_get<ObjComp::ID>();
+	if (id_comp == nullptr || id_comp->v.empty()) {
+		std::cerr << "MSC warning: encountered file object without ID\n";
+		return nullptr; // throw instead??
+	}
+
+	return nlohmann::json::binary(id_comp->v);
+}
+
+ObjectHandle MessageSerializerNJ::deserlFileObjByID(const nlohmann::json& j) {
+	std::vector<uint8_t> id;
+	if (j.is_binary()) {
+		id = j.get_binary();
+	} else {
+		j["bytes"].get_to(id);
+	}
+
+	auto o = os.getOneObjectByID(ByteSpan{id});
+	if (!o) {
+		// TODO: create empty objet with id, others need to merge if it exist? special tag to prevent arb merging??
+	}
+
+	return o;
 }
 
 template<>
@@ -154,3 +186,20 @@ bool MessageSerializerNJ::component_emplace_or_replace_json<Message::Components:
 	return true;
 }
 
+template<>
+bool MessageSerializerNJ::component_get_json<Message::Components::MessageFileObject>(MessageSerializerNJ& msc, const Handle h, nlohmann::json& j) {
+	const auto& comp = h.get<Message::Components::MessageFileObject>();
+
+	return false;
+}
+
+template<>
+bool MessageSerializerNJ::component_emplace_or_replace_json<Message::Components::MessageFileObject>(MessageSerializerNJ& msc, Handle h, const nlohmann::json& j) {
+	if (j.is_null()) {
+		std::cerr << "MSC warning: encountered null MessageFileObject\n";
+		h.emplace_or_replace<Message::Components::MessageFileObject>();
+		return true;
+	}
+
+	return false;
+}
