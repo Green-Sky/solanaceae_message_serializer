@@ -188,9 +188,10 @@ bool MessageSerializerNJ::component_emplace_or_replace_json<Message::Components:
 
 template<>
 bool MessageSerializerNJ::component_get_json<Message::Components::MessageFileObject>(MessageSerializerNJ& msc, const Handle h, nlohmann::json& j) {
-	const auto& comp = h.get<Message::Components::MessageFileObject>();
+	const auto& o = h.get<Message::Components::MessageFileObject>().o;
+	j = msc.serlFileObjByID(o);
 
-	return false;
+	return true;
 }
 
 template<>
@@ -201,5 +202,8 @@ bool MessageSerializerNJ::component_emplace_or_replace_json<Message::Components:
 		return true;
 	}
 
-	return false;
+	h.emplace_or_replace<Message::Components::MessageFileObject>(msc.deserlFileObjByID(j));
+
+	// TODO: should we return false if the object is unknown??
+	return true;
 }
