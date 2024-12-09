@@ -40,7 +40,7 @@ Contact3 MessageSerializerNJ::deserlContactByID(const nlohmann::json& j) {
 	if (j.is_binary()) {
 		id = j.get_binary();
 	} else {
-		j["bytes"].get_to(id);
+		j.at("bytes").get_to(id);
 	}
 
 	Contact3 other_c = findContactByID(cr, id);
@@ -73,7 +73,7 @@ ObjectHandle MessageSerializerNJ::deserlFileObjByID(const nlohmann::json& j) {
 	if (j.is_binary()) {
 		id = j.get_binary();
 	} else {
-		j["bytes"].get_to(id);
+		j.at("bytes").get_to(id);
 	}
 
 	auto o = os.getOneObjectByID(ByteSpan{id});
